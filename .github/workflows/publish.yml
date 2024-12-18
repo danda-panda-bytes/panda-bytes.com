@@ -14,16 +14,6 @@ concurrency:
   cancel-in-progress: false
 
 jobs:
-  build:
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: Checkout 🛎️
-        uses: actions/checkout@v4
-
-      - name: Setup Node.js ⚙️ - Cache dependencies ⚡ - Install dependencies 🔧
-        uses: ./.github/workflows/setup-node
-
   # To do this in another repo, run `ng add angular-cli-ghpages
   # Then add this under angular.json > projects > <project> > architect object
   # "deploy": {
@@ -35,10 +25,17 @@ jobs:
   #   }
   # },
   # Then add this
-  publish_deploy:
+
+  build:
     runs-on: ubuntu-latest
-    needs: build
+
     steps:
+      - name: Checkout 🛎️
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js ⚙️ - Cache dependencies ⚡ - Install dependencies 🔧
+        uses: ./.github/workflows/setup-node
+
       - name: Prepare Git
         run: |
           git config user.name "Panda Bytes"
