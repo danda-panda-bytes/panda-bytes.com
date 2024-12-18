@@ -1,0 +1,52 @@
+name: publish-to-github-pages
+on:
+  push:
+    branches:
+      - main
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: "pages"
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout 🛎️
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js ⚙️ - Cache dependencies ⚡ - Install dependencies 🔧
+        uses: ./.github/workflows/setup-node
+
+  # To do this in another repo, run `ng add angular-cli-ghpages
+  # Then add this under angular.json > projects > <project> > architect object
+  # "deploy": {
+  #   "builder": "angular-cli-ghpages:deploy",
+  #   "options": {
+  #     "buildTarget": "<project>:build:production",
+  #     "repo": "https://github.com/<username/org>/<project>.com",
+  #     "cname": "<project>.com"
+  #   }
+  # },
+  # Then add this
+  publish_deploy:
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+      - name: Prepare Git
+        run: |
+          git config user.name "Panda Bytes"
+          git config user.email "danielmhair@gmail.com"
+
+      - name: Deploy App to Github Pages
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          cd app
+          npm run deploy
