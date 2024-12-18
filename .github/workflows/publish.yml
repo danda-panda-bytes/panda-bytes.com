@@ -48,5 +48,4 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          cd app
-          npm run deploy
+          npx ng deploy
