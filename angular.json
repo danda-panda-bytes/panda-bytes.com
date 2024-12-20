@@ -65,7 +65,9 @@
           "options": {
             "buildTarget": "panda-bytes:build:production",
             "repo": "https://github.com/danda-panda-bytes/panda-bytes.com",
-            "cname": "panda-bytes.com"
+            "cname": "panda-bytes.com",
+            "branch": "gh-pages"
+
           }
         },
         "serve": {
