@@ -37,8 +37,15 @@ jobs:
       - name: Checkout 🛎️
         uses: actions/checkout@v4
 
-      - name: Setup Node.js ⚙️ - Cache dependencies ⚡ - Install dependencies 🔧
-        uses: ./.github/workflows/setup-node
+      - name: Setup Node.js ⚙️
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache-dependency-path: package-lock.json,app/package-lock.json,packages/package-lock.json
+
+      - name: Install dependencies 🔧
+        shell: bash
+        run: npm ci
 
       - name: Deploy App to Github Pages
         env:
